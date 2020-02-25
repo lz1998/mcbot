@@ -6,17 +6,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import xin.lz1998.mcbot.config.Config;
 import xin.lz1998.mcbot.service.RconService;
 
-@SpringBootTest
-class McbotApplicationTests {
-
-    @Autowired
-    Config config;
-
-    @Autowired
-    RconService rconService;
-    @Test
-    void contextLoads() {
-        System.out.println(rconService.run("list"));
-    }
-
-}
+//@SpringBootTest
+//class McbotApplicationTests {
+//
+////    @Autowired
+////    Config config;
+////
+////    @Autowired
+////    RconService rconService;
+//    @Test
+//    void contextLoads() {
+////        System.out.println(rconService.run("list"));
+//    }
+//
+//}
