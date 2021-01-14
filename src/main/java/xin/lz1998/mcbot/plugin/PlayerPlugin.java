@@ -25,7 +25,7 @@ public class PlayerPlugin extends BotPlugin {
     @Override
     public int onGroupMessage(Bot cq, OnebotEvent.GroupMessageEvent event) {
         String msg = event.getRawMessage();
-        Long groupId = event.getGroupId();
+        long groupId = event.getGroupId();
 
         Command command = commandRepository.findCommandByMsg(msg);
         if (command == null || StringUtils.isEmpty(command.getCommand())) {
