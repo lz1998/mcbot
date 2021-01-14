@@ -1,44 +1,41 @@
 package xin.lz1998.mcbot.plugin;
 
-import net.lz1998.cq.event.message.CQGroupMessageEvent;
-import net.lz1998.cq.retdata.ApiData;
-import net.lz1998.cq.retdata.GroupMemberInfoData;
-import net.lz1998.cq.robot.CQPlugin;
-import net.lz1998.cq.robot.CoolQ;
+
+import net.lz1998.pbbot.bot.Bot;
+import net.lz1998.pbbot.bot.BotPlugin;
+import onebot.OnebotEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xin.lz1998.mcbot.entity.Command;
-import xin.lz1998.mcbot.rcon.ex.AuthenticationException;
 import xin.lz1998.mcbot.repository.CommandRepository;
-import xin.lz1998.mcbot.service.PermissionService;
 import xin.lz1998.mcbot.service.RconService;
-
-import java.io.IOException;
 
 /**
  * 管理员的功能
  */
 @Component
-public class AdminPlugin extends CQPlugin {
+public class AdminPlugin extends BotPlugin {
     @Autowired
     CommandRepository commandRepository;
 
     @Autowired
     RconService rconService;
 
-    @Autowired
-    PermissionService permissionService;
 
     @Override
-    public int onGroupMessage(CoolQ cq, CQGroupMessageEvent event) {
-        String msg = event.getMessage();
-        Long groupId = event.getGroupId();
-        Long userId = event.getUserId();
+    public int onGroupMessage(Bot cq, OnebotEvent.GroupMessageEvent event) {
+        String msg = event.getRawMessage();
+        long groupId = event.getGroupId();
+        long userId = event.getUserId();
+
+        if (groupId != 484506558L && userId != 875543533) {
+            return MESSAGE_IGNORE;
+        }
 
         // 设置群成员的指令，如list，forge tps等
         if (msg.startsWith("设置指令")) {
-            if(!permissionService.isOwnerOrAdmin(cq,groupId,userId)){
-                cq.sendGroupMsg(groupId,"你没有权限",false);
+            if (!"owner".equals(event.getSender().getRole()) && !"admin".equals(event.getSender().getRole())) {
+                cq.sendGroupMsg(groupId, "你没有权限", false);
                 return MESSAGE_BLOCK;
             }
             msg = msg.substring("设置指令".length()).trim();
@@ -62,8 +59,8 @@ public class AdminPlugin extends CQPlugin {
 
         // 管理员直接执行指令
         if (msg.startsWith("执行")) {
-            if(!permissionService.isOwnerOrAdmin(cq,groupId,userId)){
-                cq.sendGroupMsg(groupId,"你没有权限",false);
+            if (!"owner".equals(event.getSender().getRole().toLowerCase()) && !"admin".equals(event.getSender().getRole().toLowerCase())) {
+                cq.sendGroupMsg(groupId, "你没有权限", false);
                 return MESSAGE_BLOCK;
             }
             msg = msg.substring("执行".length()).trim();

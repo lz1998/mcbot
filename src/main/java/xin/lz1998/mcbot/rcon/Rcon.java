@@ -7,6 +7,9 @@ import java.net.Socket;
 import java.nio.charset.Charset;
 import java.util.Random;
 
+/**
+ * 抄的代码，我也不知道什么意思
+ */
 public class Rcon {
 	
 	private final Object sync = new Object();
