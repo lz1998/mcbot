@@ -4,6 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
+/**
+ * @author lz1998
+ */
 @ConfigurationPropertiesScan
 @SpringBootApplication
 public class McbotApplication {

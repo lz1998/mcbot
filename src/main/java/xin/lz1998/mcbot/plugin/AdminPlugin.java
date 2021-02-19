@@ -4,31 +4,59 @@ package xin.lz1998.mcbot.plugin;
 import net.lz1998.pbbot.bot.Bot;
 import net.lz1998.pbbot.bot.BotPlugin;
 import onebot.OnebotEvent;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import xin.lz1998.mcbot.config.BotConfig;
 import xin.lz1998.mcbot.entity.Command;
 import xin.lz1998.mcbot.repository.CommandRepository;
 import xin.lz1998.mcbot.service.RconService;
 
 /**
  * 管理员的功能
+ * @author lz1998
  */
 @Component
 public class AdminPlugin extends BotPlugin {
-    @Autowired
-    CommandRepository commandRepository;
+
+    /**
+     * 指令集（x
+     */
+    private CommandRepository commandRepository;
 
     @Autowired
-    RconService rconService;
+    public void setCommandRepository(CommandRepository commandRepository){
+        this.commandRepository = commandRepository;
+    }
+
+    /**
+     * rcon 服务
+     */
+    private RconService rconService;
+
+    @Autowired
+    public void setRconService(RconService rconService){
+        this.rconService = rconService;
+    }
+
+    /**
+     * Bot 配置
+     */
+    private BotConfig botConfig;
+
+    @Autowired
+    public void setBotConfig(BotConfig botConfig) {
+        this.botConfig = botConfig;
+    }
 
 
     @Override
-    public int onGroupMessage(Bot cq, OnebotEvent.GroupMessageEvent event) {
+    public int onGroupMessage(@NotNull Bot cq, OnebotEvent.GroupMessageEvent event) {
         String msg = event.getRawMessage();
         long groupId = event.getGroupId();
         long userId = event.getUserId();
 
-        if (groupId != 484506558L && userId != 875543533) {
+        if (!botConfig.getWhiteList().contains(groupId) && botConfig.getAdmin() != userId) {
             return MESSAGE_IGNORE;
         }
 
@@ -57,7 +85,7 @@ public class AdminPlugin extends BotPlugin {
             return MESSAGE_BLOCK;
         }
 
-        // 管理员直接执行指令
+        // 群管理员直接执行指令
         if (msg.startsWith("执行")) {
             if (!"owner".equals(event.getSender().getRole().toLowerCase()) && !"admin".equals(event.getSender().getRole().toLowerCase())) {
                 cq.sendGroupMsg(groupId, "你没有权限", false);
