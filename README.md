@@ -40,7 +40,7 @@
     
    - 方案二：下载并配置运行SMC=> [Spring-Mirai-Client](https://github.com/ProtobufBot/Spring-Mirai-Server)
 
-   - 方案二：Linux安装docker后使用docker运行
+   - 方案三：Linux安装docker后使用docker运行
 
      ```bash
         docker run -it \
