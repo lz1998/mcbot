@@ -5,6 +5,7 @@ import xin.lz1998.mcbot.rcon.ex.AuthenticationException;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
 /**
@@ -27,12 +28,12 @@ public class Rcon {
 	 * @param port Rcon server port
 	 * @param password Rcon server password
 	 * 
-	 * @throws IOException
-	 * @throws AuthenticationException
+	 * @throws IOException IOEx
+	 * @throws AuthenticationException AuthEx
 	 */
 	public Rcon(String host, int port, byte[] password) throws IOException, AuthenticationException {
 		// Default charset is utf8
-		this.charset = Charset.forName("UTF-8");
+		this.charset = StandardCharsets.UTF_8;
 		
 		// Connect to host
 		this.connect(host, port, password);
@@ -44,9 +45,9 @@ public class Rcon {
 	 * @param host Rcon server address
 	 * @param port Rcon server port
 	 * @param password Rcon server password
-	 * 
-	 * @throws IOException
-	 * @throws AuthenticationException
+	 *
+	 * @throws IOException IOEx
+	 * @throws AuthenticationException AuthEx
 	 */
 	public void connect(String host, int port, byte[] password) throws IOException, AuthenticationException {
 		if(host == null || host.trim().isEmpty()) {
@@ -77,8 +78,8 @@ public class Rcon {
 	
 	/**
 	 * Disconnect from the current server
-	 * 
-	 * @throws IOException
+	 *
+	 * @throws IOException IOEx
 	 */
 	public void disconnect() throws IOException {
 		synchronized(sync) {
@@ -91,8 +92,8 @@ public class Rcon {
 	 * 
 	 * @param payload The command to send
 	 * @return The payload of the response
-	 * 
-	 * @throws IOException
+	 *
+	 * @throws IOException IOEx
 	 */
 	public String command(String payload) throws IOException {
 		if(payload == null || payload.trim().isEmpty()) {
